@@ -1,8 +1,9 @@
 # stock_watcher
 
-A new Flutter project.
+History:
+10/14: Implemented the list of stocks and a button to add to the list.
 
-## Getting Started
+## Want more flutter?
 
-For help getting started with Flutter, view our online
-[documentation](https://flutter.io/).
+View my blog here: 
+[documentation](https://codingwithjoe.com/flutter/).
