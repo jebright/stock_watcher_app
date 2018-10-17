@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'stock_list.dart';
 import 'stock.dart';
+import 'stock_service.dart';
 
 void main() => runApp(new MyApp());
 
@@ -30,6 +31,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   var _stockList = new List<Stock>();
   String _model = "";
+  StockService _stockService = new StockService();
 
   @override
   initState() {
@@ -52,15 +54,16 @@ class _MyHomePageState extends State<MyHomePage> {
             actions: <Widget>[
               new FlatButton(
                 child: new Text("Ok"),
-                onPressed: () {
+              onPressed: () async {
+                if(_model.isNotEmpty) {
+                  double price = await _stockService.getPrice(_model);
                   setState(() {
-                    if (_model.isNotEmpty) {
-                      _stockList.add(new Stock(_model, 0.00));
-                    }
-                    _model = "";
+                    _stockList.add(new Stock(_model, price));
                   });
-                  Navigator.pop(context);
-                },
+                }                  
+                _model = "";                  
+                Navigator.pop(context);
+              },
               ),
               new FlatButton(
                 child: new Text("Cancel"),

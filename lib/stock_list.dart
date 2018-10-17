@@ -25,7 +25,8 @@ class _StockListState extends State<StockList> {
     return new ListView.builder(
       itemCount: stocks.length,
       itemBuilder: (context, index) {
-        return ListTile(title: Text('${stocks[index].symbol}'));
+        var s = stocks[index];
+        return ListTile(title: Text('${s.symbol}'), subtitle: Text('${s.price ?? "price not found"}'));
       },
     );
   }
