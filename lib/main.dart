@@ -58,7 +58,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 if(_model.isNotEmpty) {
                   double price = await _stockService.getPrice(_model);
                   setState(() {
-                    _stockList.add(new Stock(_model, price));
+                    var s = new Stock(_model, price);
+                    s.lastUpdated = new DateTime.now();
+                    _stockList.add(s);
                   });
                 }                  
                 _model = "";                  
@@ -74,6 +76,18 @@ class _MyHomePageState extends State<MyHomePage> {
         });
   }
 
+  Future<void> _refreshStockPrices() async
+  {
+    print('refreshing stocks...');
+    _stockList.forEach((s) async {
+      double price = await _stockService.getPrice(s.symbol);
+      setState(() {
+        s.price = price;
+        s.lastUpdated = new DateTime.now();              
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -82,7 +96,10 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: new Container(
         child: new Center(
-          child: new StockList(stocks: _stockList),
+          child: new RefreshIndicator(
+            child: new StockList(stocks: _stockList),
+            onRefresh: _refreshStockPrices,
+          ) 
         ),
       ),
       floatingActionButton: new FloatingActionButton(

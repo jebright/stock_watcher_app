@@ -26,7 +26,12 @@ class _StockListState extends State<StockList> {
       itemCount: stocks.length,
       itemBuilder: (context, index) {
         var s = stocks[index];
-        return ListTile(title: Text('${s.symbol}'), subtitle: Text('${s.price ?? "price not found"}'));
+        return ListTile(
+          title: Text('${s.symbol}'), 
+          subtitle: Text(
+            '${s.price ?? "price not found"}' + ", last updated: ${s.lastUpdated}"
+            )
+        );
       },
     );
   }
